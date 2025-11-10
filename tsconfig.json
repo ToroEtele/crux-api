@@ -1,0 +1,45 @@
+{
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "ES2017",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/",
+    "strictNullChecks": true,
+    "allowImportingTsExtensions": false,
+    "baseUrl": "./",
+    "paths": {
+      "@context/*": ["./src/app/bootstrapping/apollo-server/interfaces/*"],
+      "@code-generation/*": ["./src/app/code-generation/*"],
+      "@entity-management/*": ["./src/app/entity-management/*"],
+      "@interfaces/*": ["./src/app/_common/interfaces/*"],
+      "@access-control/*": ["./src/app/access-control/*"],
+      "@query-building/*": ["./src/app/query-building/*"],
+      "@bootstrapping/*": ["./src/app/bootstrapping/*"],
+      "@config/*": ["./src/app/_common/config/*"],
+      "@errors/*": ["./src/app/_common/errors/*"],
+      "@utils/*": ["./src/app/_common/utils/*"],
+      "@entities/*": ["./src/app/entities/*"],
+      "@common/*": ["./src/app/_common/*"],
+      "@tests/*": ["./src/__tests__/*"],
+      "@db/*": ["./src/app/db*"],
+      "@/*": ["./src/*"]
+    },
+    "types": ["node", "jest"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

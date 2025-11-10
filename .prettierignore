@@ -1,0 +1,6 @@
+*.yaml
+*.yml
+
+*.ejs
+
+query-scopes.mapping.ts

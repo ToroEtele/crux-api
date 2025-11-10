@@ -1,0 +1,16 @@
+<%= disclaimer -%>
+import { InputType } from "type-graphql";
+
+import { OrderDirection } from "../../../query-building/sorting/constants/order-direction.enum";
+import { ISort } from "../../../query-building/sorting/interfaces/sort.interface";
+import { Field } from "../../_common/decorators/field.decorator";
+import { <%= names %>OrderField } from "../constants/<%= pathName %>-order-field.enum";
+
+@InputType()
+export class <%= names %>OrderInput implements ISort {
+  @Field(_type => <%= names %>OrderField, { description: "The field to order <%= names %> by." })
+  public field!: <%= names %>OrderField;
+
+  @Field(_type => OrderDirection, { description: "The ordering direction." })
+  public direction!: OrderDirection;
+}

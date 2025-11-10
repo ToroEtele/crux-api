@@ -1,0 +1,9 @@
+node_modules
+logs
+src/generated
+dist
+
+.git
+.github
+
+.env*

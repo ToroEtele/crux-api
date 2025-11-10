@@ -1,0 +1,40 @@
+<%= disclaimer -%>
+import { ValidateNested } from "class-validator";
+import { ArgsType, Int, ObjectType } from "type-graphql";
+
+<% if (isFilterable || isSortable) { %>import { IConnectionArgs } from "../../../query-building/connection/interfaces/connection-args.interface";<% } -%>
+import { IConnection } from "../../../query-building/connection/interfaces/connection.interface";
+import { PageInfo } from "../../../query-building/connection/models/page-info.model";
+import { PaginationArgs } from "../../../query-building/pagination/models/pagination-args.model";
+<% if (isSortable) { %>import { ISort } from "../../../query-building/sorting/interfaces/sort.interface";<% } -%>
+import { Field as GraphQLField } from "../../_common/decorators/field.decorator";
+import { <%= name %> } from "../../<%= pathName %>/<%= pathName %>.entity";
+<% if (isFilterable) { %>import { <%= names %>FilterInput } from "../connection-filters/<%= pathName %>-connection-filter.input-type";<% } -%>
+<% if (isSortable) { %>import { <%= names %>OrderInput } from "../input-types/<%= pathName %>-order.input-type";<% } -%>
+
+
+@ObjectType()
+export class <%= name %>Connection implements IConnection<<%= name %>> {
+  @GraphQLField(() => [<%= name %>], { description: "A list of nodes." })
+  public edges!: <%= name %>[];
+
+  @GraphQLField({ description: "Information to aid in pagination." })
+  public pageInfo!: PageInfo;
+
+  @GraphQLField(_type => Int, { description: "Identifies the total count of <%= names %> in the connection." })
+  public totalCount!: number;
+}
+
+@ArgsType()
+export class <%= names %>Args extends PaginationArgs<% if (isFilterable || isSortable) { %> implements IConnectionArgs<<%= name %>><% } %> {
+  <% if (isFilterable) { %>
+  @ValidateNested()
+  @GraphQLField(_type => <%= names %>FilterInput, { nullable: true, description: "Filtering options for <%= names %> returned from the connection." })
+  public filter?: <%= names %>FilterInput | null;
+  <% } %>
+
+  <% if (isSortable) { %>
+  @GraphQLField(_type => [<%= names %>OrderInput], { nullable: true, description: "Ordering options for <%= names %> returned from the connection." })
+  public orderBy?: ISort[] | null;
+  <% } %>
+}

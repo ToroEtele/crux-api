@@ -1,0 +1,83 @@
+<%= disclaimer -%>
+/* eslint-disable @typescript-eslint/sort-type-constituents,import/order */
+import { Constructable } from "../../../_common/base-types/constructable.type";
+import { StrictMap } from "../../../_common/strict-map";
+<% allEntities.forEach(function (entity) { -%>
+import { <%= entity.name %> } from "../../<%= entity.path %>/<%= entity.path %>.entity";
+<% }); -%>
+
+<% if (nonAbstractEntities.length) { -%>
+  export type NonAbstractEntity = <%= nonAbstractEntities.map((entity) => entity.name).join(" | ") %>;
+<% } -%>
+<% if (abstractEntities.length) { -%>
+  export type AbstractEntity = <%= abstractEntities.map((entity) => entity.name).join(" | ") %>;
+<% } -%>
+<% if (nonRetrievableEntities.length) { -%>
+export type NonRetrievableEntity = <%= nonRetrievableEntities.map((entity) => entity.name).join(" | ") %>;
+<% } -%>
+<% if (retrievableEntities.length) { -%>
+export type RetrievableEntity = <%= retrievableEntities.map((entity) => entity.name).join(" | ") %>;
+<% } -%>
+<% if (!!nonRetrievableEntities.length && !!retrievableEntities.length) { -%>
+export type Entity = NonRetrievableEntity | RetrievableEntity;
+<% } else if (nonRetrievableEntities.length) { -%>
+export type Entity = NonRetrievableEntity;
+<% } else if (retrievableEntities.length) { -%>
+export type Entity = RetrievableEntity;
+<% } -%>
+
+<% if (allEntities.length) { -%>
+export const allEntities = [
+  <%= allEntities.map((entity) => entity.name).join(",\n  ") %>
+];
+<% } %>
+<% if (abstractEntities.length) { -%>
+export const abstractEntities = [
+  <%= abstractEntities.map((entity) => entity.name).join(",\n  ") %>
+];
+<% } %>
+<% if (nonRetrievableEntities.length) { -%>
+export const nonRetrievableEntities = [
+  <%= nonRetrievableEntities.map((entity) => entity.name).join(",\n  ") %>
+];
+<% } %>
+<% if (retrievableEntities.length) { -%>
+export const retrievableEntities = [
+  <%= retrievableEntities.map((entity) => entity.name).join(",\n  ") %>
+];
+<% } %>
+<% if (nonAbstractEntities.length) { -%>
+export const entityNameTypeMapping = new StrictMap<string, Constructable<NonAbstractEntity>>(
+  "entityNameTypeMapping",
+  [
+    <%- nonAbstractEntities.map((entity) => `["${entity.name}", ${entity.name}]`).join(",\n  ") %>
+  ]
+);
+<% } %>
+<% if (retrievableEntities.length) { -%>
+export const retrievableEntityNameTypeMapping = new StrictMap<string, Constructable<RetrievableEntity>>(
+  "retrievableEntityNameTypeMapping",
+  [
+    <%- retrievableEntities.map((entity) => `["${entity.name}", ${entity.name}]`).join(",\n  ") %>
+  ]
+);
+<% } -%>
+<% if (!!databaseEntities) { -%>
+<% databaseEntities.forEach((entities, databaseName) => { %>
+export const <%=databaseName %>Entities = [
+  <%= entities.map((entity) => entity.name).join(",\n  ") %>
+];
+<% }) -%>
+<% } -%>
+
+<% if (elasticSearchEntities.length) { -%>
+export const elasticSearchEntities = [
+  <%= elasticSearchEntities.map((entity) => entity.name).join(",\n  ") %>
+];
+export const elasticSearchEntityNameTypeMapping = new StrictMap<string, Constructable<Entity>>(
+  "elasticSearchEntityNameTypeMapping",
+  [
+  <%- elasticSearchEntities.map((entity) => `["${entity.name}", ${entity.name}]`).join(",\n  ") %>
+  ]
+);
+<% } -%>

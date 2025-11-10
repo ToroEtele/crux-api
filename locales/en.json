@@ -1,0 +1,13 @@
+{
+  "errors": {
+    "BAD_USER_INPUT": { "message": "Bad user input!" },
+    "ENTITY_NOT_FOUND": { "message": "Entity not found!" },
+    "UNAUTHENTICATED": { "message": "Unauthenticated!" },
+    "UNAUTHORIZED": { "message": "Unauthorized!" },
+    "INTERNAL_SERVER_ERROR": { "message": "Internal server error!" },
+    "SOMETHING_WENT_WRONG": { "message": "Something went wrong!" },
+    "INVALID_CREDENTIALS": { "message": "Invalid credentials!" },
+    "USER_EXISTS": { "message": "Email already used!" },
+    "INVALID_OBJECT_ID_TYPE": { "message": "Invalid object ID type!" }
+  }
+}

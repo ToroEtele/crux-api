@@ -1,0 +1,39 @@
+version: '3.9'
+services:
+  api:
+    container_name: crux-api
+    build:
+      context: .
+    ports:
+      - '8030:8030'
+    environment:
+      NODE_ENV: development
+      PORT: 8030
+      HOSTNAME: localhost
+      LOG_LEVEL: SILENT
+      DATABASE_URL: mysql://root:pass123@db:3325/crux
+    networks:
+      - crux
+    depends_on:
+      - db
+  db:
+    container_name: crux-db
+    image: mysql:8.0.25
+    ports:
+      - '3325:3325'
+    environment:
+      - MYSQL_DATABASE=crux
+      - MYSQL_ROOT_PASSWORD=pass123
+      - MYSQL_TCP_PORT=3325
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - crux
+networks:
+  crux:
+    driver: bridge
+
+

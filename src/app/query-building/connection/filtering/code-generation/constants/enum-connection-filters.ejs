@@ -1,0 +1,23 @@
+<%= disclaimer -%>
+import { Field, InputType } from "type-graphql";
+
+import { IConnectionFilterInput } from "../../../query-building/connection/filtering/interfaces/connection-filter-input.interface";
+import { <%= enumType -%> } from "<%= enumPath -%>";
+
+@InputType()
+export class Connection<%= schemaType -%>FilterInput implements IConnectionFilterInput<<%= enumType -%>> {
+  @Field(_type => <%= enumType -%>, { nullable: true })
+  public eq?: <%= enumType -%>;
+
+  @Field(_type => [<%= enumType -%>], { nullable: true })
+  public in?: <%= enumType -%>[];
+
+  @Field(_type => <%= enumType -%>, { nullable: true })
+  public ne?: <%= enumType -%>;
+
+  @Field(_type => [<%= enumType -%>], { nullable: true })
+  public notIn?: <%= enumType -%>[];
+
+  @Field({ nullable: true })
+  public isNull?: boolean;
+}

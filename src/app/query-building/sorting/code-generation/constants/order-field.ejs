@@ -1,0 +1,10 @@
+<%= disclaimer -%>
+import { registerGraphQLEnum } from "../../_common/decorators/register-graphql-enum";
+
+export enum <%= names %>OrderField {
+  <%- fields.map(function (field) { return `\"${field.name}\" = \"${field.propertyKey}\"` }).join(",\n  ") %>
+}
+
+registerGraphQLEnum(<%= names %>OrderField, {
+  name: "<%= names %>OrderField"
+});

@@ -1,0 +1,55 @@
+<%= disclaimer -%>
+import { ValidateNested } from "class-validator";
+<% if (untypedFields.length > 0) { -%>import { GraphQLJSONObject } from "graphql-scalars";<% } -%>
+import { InputType } from "type-graphql";
+
+import { ConnectionFilterOperator } from "../../../query-building/connection/filtering/constants/connection-filter-operator.enum";
+import { ConnectionFilter } from "../../../query-building/connection/filtering/interfaces/connection-filter.interface";
+<% if (primitives.hasBooleanFields) { -%>import { ConnectionBooleanFilterInput } from "../../../query-building/connection/filtering/types/connection-boolean-filter.input";<% } -%>
+<% if (primitives.hasDateFields) { -%>import { ConnectionDateFilterInput } from "../../../query-building/connection/filtering/types/connection-date-filter.input";<% } -%>
+<% if (primitives.hasFloatArrayFields) { -%>import { ConnectionFloatArrayFilterInput } from "../../../query-building/connection/filtering/types/connection-float-array-filter.input";<% } -%>
+<% if (primitives.hasFloatFields) { -%>import { ConnectionFloatFilterInput } from "../../../query-building/connection/filtering/types/connection-float-filter.input";<% } -%>
+<% if (primitives.hasIntArrayFields) { -%>import { ConnectionIntArrayFilterInput } from "../../../query-building/connection/filtering/types/connection-int-array-filter.input";<% } -%>
+<% if (primitives.hasIntFields) { -%>import { ConnectionIntFilterInput } from "../../../query-building/connection/filtering/types/connection-int-filter.input";<% } -%>
+<% if (primitives.hasStringArrayFields) { -%>import { ConnectionStringArrayFilterInput } from "../../../query-building/connection/filtering/types/connection-string-array-filter.input";<% } -%>
+<% if (primitives.hasStringFields) { -%>import { ConnectionStringFilterInput } from "../../../query-building/connection/filtering/types/connection-string-filter.input";<% } -%>
+import { Field as GraphQLField } from "../../_common/decorators/field.decorator";
+import { <%= entity.name %> } from "../../<%= pathName %>/<%= pathName %>.entity";
+
+<% enums.fieldImports.forEach(function (fieldImport) { %>
+import { <%= fieldImport.connectionFilterType %> } from "./<%= fieldImport.connectionFilterFileName %>";<% });
+%>
+
+@InputType()
+export class <%= names %>FilterInput implements ConnectionFilter<<%= entity.name %>> {
+  <% primitives.fields.forEach(function (field) { %>
+  @GraphQLField(_type => <%= field.connectionFilterType.name %>, { nullable: true, admin: <%= field.admin %> })
+  @ValidateNested()
+  public <%= field.name %>?: <%= field.connectionFilterType.name %>;
+  <% }); %>
+
+  <% untypedFields.forEach(function (field) { %>
+  @GraphQLField(_type => GraphQLJSONObject, { nullable: true, admin: <%= field.admin %> })
+  public <%= field.name %>?: Record<string, unknown>;
+  <% }); %>
+
+  <% enums.fields.forEach(function (field) { %>
+  @GraphQLField(_type => <%= field.connectionFilterType %>, { nullable: true, admin: <%= field.admin %> })
+  @ValidateNested()
+  public <%= field.name %>?: <%= field.connectionFilterType %>;
+  <% }); %>
+
+  @GraphQLField(_type => [<%= names %>FilterInput], {
+    nullable: true,
+    description: "Groups each filter object using AND",
+  })
+  @ValidateNested()
+  public [ConnectionFilterOperator.and]?: <%= names %>FilterInput[];
+
+  @GraphQLField(_type => [<%= names %>FilterInput], {
+    nullable: true,
+    description: "Groups each filter object using OR",
+  })
+  @ValidateNested()
+  public [ConnectionFilterOperator.or]?: <%= names %>FilterInput[];
+}
