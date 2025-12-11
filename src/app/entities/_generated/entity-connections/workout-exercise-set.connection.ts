@@ -7,21 +7,19 @@ import { IConnection } from '../../../query-building/connection/interfaces/conne
 import { PageInfo } from '../../../query-building/connection/models/page-info.model';
 import { PaginationArgs } from '../../../query-building/pagination/models/pagination-args.model';
 import { Field as GraphQLField } from '../../_common/decorators/field.decorator';
-import { PlanWorkoutExerciseOverride } from '../../plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
+import { WorkoutExerciseSet } from '../../workout-exercise-set/workout-exercise-set.entity';
 
 @ObjectType()
-export class PlanWorkoutExerciseOverrideConnection implements IConnection<PlanWorkoutExerciseOverride> {
-  @GraphQLField(() => [PlanWorkoutExerciseOverride], { description: 'A list of nodes.' })
-  public edges!: PlanWorkoutExerciseOverride[];
+export class WorkoutExerciseSetConnection implements IConnection<WorkoutExerciseSet> {
+  @GraphQLField(() => [WorkoutExerciseSet], { description: 'A list of nodes.' })
+  public edges!: WorkoutExerciseSet[];
 
   @GraphQLField({ description: 'Information to aid in pagination.' })
   public pageInfo!: PageInfo;
 
-  @GraphQLField((_type) => Int, {
-    description: 'Identifies the total count of PlanWorkoutExerciseOverrides in the connection.'
-  })
+  @GraphQLField(_type => Int, { description: 'Identifies the total count of WorkoutExerciseSets in the connection.' })
   public totalCount!: number;
 }
 
 @ArgsType()
-export class PlanWorkoutExerciseOverridesArgs extends PaginationArgs {}
+export class WorkoutExerciseSetsArgs extends PaginationArgs {}

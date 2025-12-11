@@ -5,7 +5,7 @@ import { Field } from '@entities/_common/decorators/field.decorator';
 import { ObjectId } from '@entities/_common/object-id/object-id';
 import { BaseEntity } from '@common/base-types/base.entity';
 
-import { PlanWorkoutExerciseOverride } from '../plan-workout-exercise-override/plan-workout-exercise-override.entity';
+import { PlanWorkoutExerciseSetOverride } from '../plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
 import { Workout } from '../workout/workout.entity';
 import { Plan } from '../plan/plan.entity';
 
@@ -49,6 +49,6 @@ export class PlanWorkout extends BaseEntity {
   @JoinColumn({ name: 'plan_id' })
   plan!: Plan;
 
-  @OneToMany(() => PlanWorkoutExerciseOverride, (override) => override.planWorkout)
-  workoutPlanExerciseOverrides!: Promise<PlanWorkoutExerciseOverride[]>;
+  @OneToMany(() => PlanWorkoutExerciseSetOverride, (override) => override.planWorkout)
+  workoutExerciseSetOverrides!: Promise<PlanWorkoutExerciseSetOverride[]>;
 }

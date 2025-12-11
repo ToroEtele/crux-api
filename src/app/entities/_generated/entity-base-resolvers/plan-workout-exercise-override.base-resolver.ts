@@ -5,7 +5,7 @@ import { Inject, Service } from 'typedi';
 
 import { IRequesterAuthContext } from '../../../_common/interfaces/requester-context.interface';
 import { AuthContext } from '../../../access-control/_common/decorators/auth-context.decorator';
-import { AuthorizedAdmin } from '../../../access-control/authorization/decorators/authorized-admin.decorator';
+import { AuthorizedAdmin } from '../../../access-control/authorization/authorized-admin.decorator';
 import { InjectScoped } from '../../../access-control/scoping/inject-scoped.decorator';
 import { ScopingService } from '../../../access-control/scoping/scoping.service';
 import { IBaseRepository } from '../../../entity-management/interfaces/base-repository.interface';
@@ -14,7 +14,7 @@ import { IConnection } from '../../../query-building/connection/interfaces/conne
 import { QueryService } from '../../../query-building/query.service';
 import { ObjectId } from '../../_common/object-id/object-id';
 import { RequestedFields } from '../../_common/decorators/requested-fields.decorator';
-import { PlanWorkoutExerciseOverride } from '../../plan-workout-exercise-override/plan-workout-exercise-override.entity';
+import { PlanWorkoutExerciseOverride } from '../../plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
 import { PlanWorkoutExerciseOverrideConnection, PlanWorkoutExerciseOverridesArgs } from '../entity-connections/plan-workout-exercise-override.connection';
 
 @Resolver((_of) => PlanWorkoutExerciseOverride)

@@ -17,10 +17,6 @@ export class ExercisesFilterInput implements ConnectionFilter<Exercise> {
   @ValidateNested()
   public name?: ConnectionStringFilterInput;
 
-  @GraphQLField(_type => ConnectionStringFilterInput, { nullable: true, admin: false })
-  @ValidateNested()
-  public defaultUnits?: ConnectionStringFilterInput;
-
   @GraphQLField(_type => ConnectionDifficultyFilterInput, { nullable: true, admin: false })
   @ValidateNested()
   public diff?: ConnectionDifficultyFilterInput;

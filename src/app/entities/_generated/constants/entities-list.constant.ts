@@ -7,11 +7,11 @@ import { AvatarImage } from '../../avatar-image/avatar-image.entity';
 import { Session } from '../../session/session.entity';
 import { User } from '../../user/user.entity';
 import { Account } from '../../account/account.entity';
-import { Plan } from '../../plan/plan.entity';
-import { PlanWorkoutExerciseOverride } from '../../plan-workout-exercise-override/plan-workout-exercise-override.entity';
-import { PlanWorkout } from '../../plan-workout/plan-workout.entity';
 import { Workout } from '../../workout/workout.entity';
-import { WorkoutExerciseParam } from '../../workout-exercise-param/workout-exercise-param.entity';
+import { Plan } from '../../plan/plan.entity';
+import { PlanWorkout } from '../../plan-workout/plan-workout.entity';
+import { PlanWorkoutExerciseSetOverride } from '../../plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
+import { WorkoutExerciseSet } from '../../workout-exercise-set/workout-exercise-set.entity';
 import { WorkoutExercise } from '../../workout-exercise/workout-exercise.entity';
 import { Exercise } from '../../exercise/exercise.entity';
 import { Category } from '../../category/category.entity';
@@ -23,11 +23,11 @@ export type NonAbstractEntity =
   | Session
   | User
   | Account
-  | Plan
-  | PlanWorkoutExerciseOverride
-  | PlanWorkout
   | Workout
-  | WorkoutExerciseParam
+  | Plan
+  | PlanWorkout
+  | PlanWorkoutExerciseSetOverride
+  | WorkoutExerciseSet
   | WorkoutExercise
   | Exercise
   | Category
@@ -38,11 +38,11 @@ export type NonRetrievableEntity =
   | Session
   | User
   | Account
-  | Plan
-  | PlanWorkoutExerciseOverride
-  | PlanWorkout
   | Workout
-  | WorkoutExerciseParam
+  | Plan
+  | PlanWorkout
+  | PlanWorkoutExerciseSetOverride
+  | WorkoutExerciseSet
   | WorkoutExercise
   | Exercise
   | Category
@@ -55,11 +55,11 @@ export const allEntities = [
   Session,
   User,
   Account,
-  Plan,
-  PlanWorkoutExerciseOverride,
-  PlanWorkout,
   Workout,
-  WorkoutExerciseParam,
+  Plan,
+  PlanWorkout,
+  PlanWorkoutExerciseSetOverride,
+  WorkoutExerciseSet,
   WorkoutExercise,
   Exercise,
   Category,
@@ -72,11 +72,11 @@ export const nonRetrievableEntities = [
   Session,
   User,
   Account,
-  Plan,
-  PlanWorkoutExerciseOverride,
-  PlanWorkout,
   Workout,
-  WorkoutExerciseParam,
+  Plan,
+  PlanWorkout,
+  PlanWorkoutExerciseSetOverride,
+  WorkoutExerciseSet,
   WorkoutExercise,
   Exercise,
   Category,
@@ -89,11 +89,11 @@ export const entityNameTypeMapping = new StrictMap<string, Constructable<NonAbst
   ['Session', Session],
   ['User', User],
   ['Account', Account],
-  ['Plan', Plan],
-  ['PlanWorkoutExerciseOverride', PlanWorkoutExerciseOverride],
-  ['PlanWorkout', PlanWorkout],
   ['Workout', Workout],
-  ['WorkoutExerciseParam', WorkoutExerciseParam],
+  ['Plan', Plan],
+  ['PlanWorkout', PlanWorkout],
+  ['PlanWorkoutExerciseSetOverride', PlanWorkoutExerciseSetOverride],
+  ['WorkoutExerciseSet', WorkoutExerciseSet],
   ['WorkoutExercise', WorkoutExercise],
   ['Exercise', Exercise],
   ['Category', Category],

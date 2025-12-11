@@ -8,12 +8,11 @@ import migrations from '../../../../db/migrations';
 export const database = new DataSource({
   type: 'mysql',
   url: config.databaseUrl,
-  synchronize: false,
   entities: allEntities,
   migrationsTableName: 'migrations',
   migrationsRun: false,
+  synchronize: true,
   migrations,
-  legacySpatialSupport: false,
   supportBigNumbers: true,
   bigNumberStrings: false,
   extra: {

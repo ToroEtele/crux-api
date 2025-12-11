@@ -1,7 +1,7 @@
 import { Arg, FieldResolver, Mutation, Resolver, Root } from 'type-graphql';
 import { Service } from 'typedi';
 
-import { AuthorizedAdmin } from '@app/access-control/authorization/decorators/authorized-admin.decorator';
+import { AuthorizedAdmin } from '@app/access-control/authorization/authorized-admin.decorator';
 import { InjectRepository } from '@entity-management/decorators/inject-repository.decorator';
 import { InjectScoped } from '@app/access-control/scoping/inject-scoped.decorator';
 import { ObjectId } from '../_common/object-id/object-id';

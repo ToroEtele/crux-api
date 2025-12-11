@@ -2,11 +2,11 @@ import { EntityManager } from 'typeorm';
 
 import { BaseSqlRepository } from '@entity-management/external-providers/typeorm/base-sql.repository';
 
-import { PlanWorkoutExerciseOverride } from './plan-workout-exercise-override.entity';
+import { WorkoutExerciseSet } from './workout-exercise-set.entity';
 import { TypeORMEntityManager } from '@entity-management/external-providers/typeorm/typeorm-entity-manager.adapter';
 
-export class PlanWorkoutExerciseOverrideRepository extends BaseSqlRepository<PlanWorkoutExerciseOverride> {
+export class WorkoutExerciseSetRepository extends BaseSqlRepository<WorkoutExerciseSet> {
   constructor(manager: EntityManager) {
-    super(new TypeORMEntityManager(manager), PlanWorkoutExerciseOverride);
+    super(new TypeORMEntityManager(manager), WorkoutExerciseSet);
   }
 }

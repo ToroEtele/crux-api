@@ -14,46 +14,49 @@ import { IConnection } from '../../../query-building/connection/interfaces/conne
 import { QueryService } from '../../../query-building/query.service';
 import { ObjectId } from '../../_common/object-id/object-id';
 import { RequestedFields } from '../../_common/decorators/requested-fields.decorator';
-import { Account } from '../../account/account.entity';
-import { AccountConnection, AccountsArgs } from '../entity-connections/account.connection';
+import { WorkoutExerciseSet } from '../../workout-exercise-set/workout-exercise-set.entity';
+import {
+  WorkoutExerciseSetConnection,
+  WorkoutExerciseSetsArgs,
+} from '../entity-connections/workout-exercise-set.connection';
 
-@Resolver(_of => Account)
+@Resolver(_of => WorkoutExerciseSet)
 @Service()
-export abstract class AccountBaseResolver {
+export abstract class WorkoutExerciseSetBaseResolver {
   @Inject(_type => ScopingService) protected scopingService!: ScopingService;
 
-  constructor(private readonly entityRepository: IBaseRepository<Account>) {}
+  constructor(private readonly entityRepository: IBaseRepository<WorkoutExerciseSet>) {}
 
   @AuthorizedAdmin()
-  @Query(_returns => Account, { description: 'Find Account by Object ID.' })
-  public async getAccount(
+  @Query(_returns => WorkoutExerciseSet, { description: 'Find WorkoutExerciseSet by Object ID.' })
+  public async getWorkoutExerciseSet(
     @Arg('id', _type => ObjectId) id: ObjectId,
-    @InjectScoped('id.id', Account) entity: Account,
-  ): Promise<Account> {
+    @InjectScoped('id.id', WorkoutExerciseSet) entity: WorkoutExerciseSet,
+  ): Promise<WorkoutExerciseSet> {
     return entity;
   }
 
   @AuthorizedAdmin()
-  @Query(_returns => AccountConnection, { description: 'Find Accounts by connection arguments.' })
-  public async getAccounts(
-    @Args(_type => AccountsArgs) args: IConnectionArgs<Account>,
+  @Query(_returns => WorkoutExerciseSetConnection, { description: 'Find WorkoutExerciseSets by connection arguments.' })
+  public async getWorkoutExerciseSets(
+    @Args(_type => WorkoutExerciseSetsArgs) args: IConnectionArgs<WorkoutExerciseSet>,
     @RequestedFields() requestedFields: string[],
     @AuthContext() authContext: IRequesterAuthContext,
-  ): Promise<IConnection<Account>> {
+  ): Promise<IConnection<WorkoutExerciseSet>> {
     const { filter, orderBy } = args;
-    return await new QueryService(this.scopingService.createScopedQuery(authContext, Account))
+    return await new QueryService(this.scopingService.createScopedQuery(authContext, WorkoutExerciseSet))
       .applyFilter(filter)
       .applySorting(orderBy)
       .getConnection({ ...args, maxEntities: 1000 }, requestedFields);
   }
 
   @FieldResolver()
-  public id(@Root() { id }: Account): ObjectId {
-    return new ObjectId({ id, type: 'Account' });
+  public id(@Root() { id }: WorkoutExerciseSet): ObjectId {
+    return new ObjectId({ id, type: 'WorkoutExerciseSet' });
   }
 
   @FieldResolver()
-  public rawID(@Root() { id }: Account): string {
+  public rawID(@Root() { id }: WorkoutExerciseSet): string {
     return String(id);
   }
 }

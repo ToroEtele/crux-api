@@ -27,10 +27,6 @@ export class Exercise extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   diff!: Difficulty;
 
-  @Field((_type) => String, { filterable: true, sortable: true })
-  @Column({ name: 'default_units', type: 'varchar', length: 255 })
-  defaultUnits!: string;
-
   @Column({ name: 'category_id' })
   categoryId!: number;
 

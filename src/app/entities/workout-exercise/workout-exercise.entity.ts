@@ -5,8 +5,7 @@ import { Field } from '@entities/_common/decorators/field.decorator';
 import { ObjectId } from '@entities/_common/object-id/object-id';
 import { BaseEntity } from '@common/base-types/base.entity';
 
-import { PlanWorkoutExerciseOverride } from '../plan-workout-exercise-override/plan-workout-exercise-override.entity';
-import { WorkoutExerciseParam } from '../workout-exercise-param/workout-exercise-param.entity';
+import { WorkoutExerciseSet } from '../workout-exercise-set/workout-exercise-set.entity';
 import { Exercise } from '../exercise/exercise.entity';
 import { Workout } from '../workout/workout.entity';
 
@@ -20,39 +19,21 @@ export class WorkoutExercise extends BaseEntity {
   @Column({ type: 'int' })
   order!: number;
 
-  @Field((_type) => Number)
-  @Column({ type: 'int' })
-  sets!: number;
-
-  @Field((_type) => Number)
-  @Column({ type: 'int' })
-  reps!: number;
-
-  @Field((_type) => Number, { nullable: true })
-  @Column({ type: 'int', nullable: true })
-  time?: number | null;
-
-  @Field((_type) => Number, { nullable: true })
-  @Column({ type: 'int', nullable: true })
-  weight?: number | null;
-
-  @Field((_type) => Number)
-  @Column({ name: 'rest_after', type: 'int' })
-  restAfter!: number;
-
-  @Field((_type) => Number)
-  @Column({ name: 'rest_between', type: 'int' })
-  restBetween!: number;
-
-  @Field((_type) => String, { nullable: true })
-  @Column({ type: 'text', nullable: true })
-  notes!: string;
-
   @Column({ name: 'exercise_id' })
   exerciseId!: number;
 
   @Column({ name: 'workout_id' })
   workoutId!: number;
+
+  @Field((_type) => Number)
+  @Column({ type: 'int', nullable: true })
+  rest?: number | null;
+
+  @Field((_type) => String, { nullable: true })
+  @Column({ type: 'text', nullable: true })
+  notes!: string;
+
+  // * Many-to-one relations
 
   @ManyToOne(() => Exercise, (exercise) => exercise.workoutExercises)
   @JoinColumn({ name: 'exercise_id' })
@@ -62,9 +43,10 @@ export class WorkoutExercise extends BaseEntity {
   @JoinColumn({ name: 'workout_id' })
   workout!: Workout;
 
-  @OneToMany(() => WorkoutExerciseParam, (param) => param.workoutExercise)
-  params!: Promise<WorkoutExerciseParam[]>;
+  // * One-to-many relations
 
-  @OneToMany(() => PlanWorkoutExerciseOverride, (override) => override.workoutExercise)
-  workoutPlanExerciseOverrides!: Promise<PlanWorkoutExerciseOverride[]>;
+  @OneToMany(() => WorkoutExerciseSet, (set) => set.workoutExercise, {
+    cascade: true
+  })
+  sets!: Promise<WorkoutExerciseSet[]>;
 }

@@ -6,39 +6,39 @@ import { ObjectId } from '@entities/_common/object-id/object-id';
 import { BaseEntity } from '@common/base-types/base.entity';
 
 import { PlanWorkout } from '../plan-workout/plan-workout.entity';
-import { WorkoutExercise } from '../workout-exercise/workout-exercise.entity';
+import { WorkoutExerciseSet } from '../workout-exercise-set/workout-exercise-set.entity';
 
 @Entity()
 @Index(['planWorkoutId'])
-@Index(['workoutExerciseId'])
-export class PlanWorkoutExerciseOverride extends BaseEntity {
-  @Field((_type) => ObjectId)
+@Index(['workoutExerciseSetId'])
+export class PlanWorkoutExerciseSetOverride extends BaseEntity {
+  @Field(() => ObjectId)
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column({ name: 'plan_workout_id' })
   planWorkoutId!: number;
 
-  @Column({ name: 'workout_exercise_id' })
-  workoutExerciseId!: number;
+  @Column({ name: 'workout_exercise_set_id' })
+  workoutExerciseSetId!: number;
 
-  @Field((_type) => String)
+  @Field(() => String)
   @Column({ type: 'varchar', length: 255 })
   field!: string;
 
-  @Field((_type) => String)
+  @Field(() => String)
   @Column({ name: 'new_value', type: 'varchar', length: 255 })
   newValue!: string;
 
-  @Field((_type) => String)
+  @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
   notes?: string | null;
 
-  @ManyToOne(() => PlanWorkout, (planWorkout) => planWorkout.workoutPlanExerciseOverrides, { onDelete: 'CASCADE' })
+  @ManyToOne(() => PlanWorkout, (pw) => pw.workoutExerciseSetOverrides, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'plan_workout_id' })
   planWorkout!: PlanWorkout;
 
-  @ManyToOne(() => WorkoutExercise, (we) => we.workoutPlanExerciseOverrides)
-  @JoinColumn({ name: 'workout_exercise_id' })
-  workoutExercise!: WorkoutExercise;
+  @ManyToOne(() => WorkoutExerciseSet, (set) => set.overrides, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'workout_exercise_set_id' })
+  workoutExerciseSet!: WorkoutExerciseSet;
 }

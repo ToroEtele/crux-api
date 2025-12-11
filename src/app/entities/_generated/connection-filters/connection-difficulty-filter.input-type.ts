@@ -7,16 +7,16 @@ import { Difficulty } from '../../plan/enums/difficulty.enum';
 
 @InputType()
 export class ConnectionDifficultyFilterInput implements IConnectionFilterInput<Difficulty> {
-  @Field((_type) => Difficulty, { nullable: true })
+  @Field(_type => Difficulty, { nullable: true })
   public eq?: Difficulty;
 
-  @Field((_type) => [Difficulty], { nullable: true })
+  @Field(_type => [Difficulty], { nullable: true })
   public in?: Difficulty[];
 
-  @Field((_type) => Difficulty, { nullable: true })
+  @Field(_type => Difficulty, { nullable: true })
   public ne?: Difficulty;
 
-  @Field((_type) => [Difficulty], { nullable: true })
+  @Field(_type => [Difficulty], { nullable: true })
   public notIn?: Difficulty[];
 
   @Field({ nullable: true })

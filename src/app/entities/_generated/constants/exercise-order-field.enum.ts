@@ -5,7 +5,6 @@ import { registerGraphQLEnum } from '../../_common/decorators/register-graphql-e
 export enum ExercisesOrderField {
   'name' = 'name',
   'diff' = 'diff',
-  'defaultUnits' = 'defaultUnits',
 }
 
 registerGraphQLEnum(ExercisesOrderField, {

@@ -8,22 +8,7 @@ export class CreateWorkoutExerciseInput {
   order!: number;
 
   @Field(() => Int)
-  sets!: number;
-
-  @Field(() => Int)
-  reps!: number;
-
-  @Field(() => Int, { nullable: true })
-  time?: number | null;
-
-  @Field(() => Int, { nullable: true })
-  weight?: number | null;
-
-  @Field(() => Int)
-  restAfter!: number;
-
-  @Field(() => Int)
-  restBetween!: number;
+  rest!: number;
 
   @Field(() => String, { nullable: true })
   notes!: string;

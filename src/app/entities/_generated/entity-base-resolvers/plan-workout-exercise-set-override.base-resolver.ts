@@ -14,46 +14,53 @@ import { IConnection } from '../../../query-building/connection/interfaces/conne
 import { QueryService } from '../../../query-building/query.service';
 import { ObjectId } from '../../_common/object-id/object-id';
 import { RequestedFields } from '../../_common/decorators/requested-fields.decorator';
-import { Account } from '../../account/account.entity';
-import { AccountConnection, AccountsArgs } from '../entity-connections/account.connection';
+import { PlanWorkoutExerciseSetOverride } from '../../plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
+import {
+  PlanWorkoutExerciseSetOverrideConnection,
+  PlanWorkoutExerciseSetOverridesArgs,
+} from '../entity-connections/plan-workout-exercise-set-override.connection';
 
-@Resolver(_of => Account)
+@Resolver(_of => PlanWorkoutExerciseSetOverride)
 @Service()
-export abstract class AccountBaseResolver {
+export abstract class PlanWorkoutExerciseSetOverrideBaseResolver {
   @Inject(_type => ScopingService) protected scopingService!: ScopingService;
 
-  constructor(private readonly entityRepository: IBaseRepository<Account>) {}
+  constructor(private readonly entityRepository: IBaseRepository<PlanWorkoutExerciseSetOverride>) {}
 
   @AuthorizedAdmin()
-  @Query(_returns => Account, { description: 'Find Account by Object ID.' })
-  public async getAccount(
+  @Query(_returns => PlanWorkoutExerciseSetOverride, {
+    description: 'Find PlanWorkoutExerciseSetOverride by Object ID.',
+  })
+  public async getPlanWorkoutExerciseSetOverride(
     @Arg('id', _type => ObjectId) id: ObjectId,
-    @InjectScoped('id.id', Account) entity: Account,
-  ): Promise<Account> {
+    @InjectScoped('id.id', PlanWorkoutExerciseSetOverride) entity: PlanWorkoutExerciseSetOverride,
+  ): Promise<PlanWorkoutExerciseSetOverride> {
     return entity;
   }
 
   @AuthorizedAdmin()
-  @Query(_returns => AccountConnection, { description: 'Find Accounts by connection arguments.' })
-  public async getAccounts(
-    @Args(_type => AccountsArgs) args: IConnectionArgs<Account>,
+  @Query(_returns => PlanWorkoutExerciseSetOverrideConnection, {
+    description: 'Find PlanWorkoutExerciseSetOverrides by connection arguments.',
+  })
+  public async getPlanWorkoutExerciseSetOverrides(
+    @Args(_type => PlanWorkoutExerciseSetOverridesArgs) args: IConnectionArgs<PlanWorkoutExerciseSetOverride>,
     @RequestedFields() requestedFields: string[],
     @AuthContext() authContext: IRequesterAuthContext,
-  ): Promise<IConnection<Account>> {
+  ): Promise<IConnection<PlanWorkoutExerciseSetOverride>> {
     const { filter, orderBy } = args;
-    return await new QueryService(this.scopingService.createScopedQuery(authContext, Account))
+    return await new QueryService(this.scopingService.createScopedQuery(authContext, PlanWorkoutExerciseSetOverride))
       .applyFilter(filter)
       .applySorting(orderBy)
       .getConnection({ ...args, maxEntities: 1000 }, requestedFields);
   }
 
   @FieldResolver()
-  public id(@Root() { id }: Account): ObjectId {
-    return new ObjectId({ id, type: 'Account' });
+  public id(@Root() { id }: PlanWorkoutExerciseSetOverride): ObjectId {
+    return new ObjectId({ id, type: 'PlanWorkoutExerciseSetOverride' });
   }
 
   @FieldResolver()
-  public rawID(@Root() { id }: Account): string {
+  public rawID(@Root() { id }: PlanWorkoutExerciseSetOverride): string {
     return String(id);
   }
 }
