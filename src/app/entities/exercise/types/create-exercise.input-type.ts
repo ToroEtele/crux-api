@@ -14,9 +14,6 @@ export class CreateExerciseInput {
   @Field(() => Difficulty)
   diff!: Difficulty;
 
-  @Field()
-  defaultUnits!: string;
-
   @Field((_type) => ObjectId)
   categoryId!: number;
 }

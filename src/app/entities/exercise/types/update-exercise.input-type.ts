@@ -14,9 +14,6 @@ export class UpdateExerciseInput {
   @Field(() => Difficulty, { nullable: true })
   diff?: Difficulty;
 
-  @Field({ nullable: true })
-  defaultUnits?: string;
-
   @Field((_type) => ObjectId, { nullable: true })
   categoryId!: number;
 }

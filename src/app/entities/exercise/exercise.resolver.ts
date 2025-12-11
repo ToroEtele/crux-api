@@ -30,7 +30,7 @@ export class ExerciseResolver extends ExerciseBaseResolver {
 
   @AuthorizedAdmin()
   @Mutation(() => Exercise)
-  async createExercise(@Arg('input') input: CreateExerciseInput, @InjectScoped('input.categoryId', Category) category: Category): Promise<Exercise> {
+  async createExercise(@Arg('input') input: CreateExerciseInput, @InjectScoped('input.categoryId.id', Category) category: Category): Promise<Exercise> {
     return await this.repository.buildAndSave({ ...input, category });
   }
 
