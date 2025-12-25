@@ -27,7 +27,7 @@ export class PlanWorkout extends BaseEntity {
   @Column({ name: 'order_in_day', type: 'int', nullable: true })
   orderInDay?: number | null;
 
-  @Field((_type) => String)
+  @Field((_type) => String, { nullable: true })
   @Column({ name: 'custom_name', type: 'varchar', length: 255, nullable: true })
   customName?: string | null;
 

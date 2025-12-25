@@ -25,7 +25,7 @@ export class WorkoutExercise extends BaseEntity {
   @Column({ name: 'workout_id' })
   workoutId!: number;
 
-  @Field((_type) => Number)
+  @Field((_type) => Number, { nullable: true })
   @Column({ type: 'int', nullable: true })
   rest?: number | null;
 

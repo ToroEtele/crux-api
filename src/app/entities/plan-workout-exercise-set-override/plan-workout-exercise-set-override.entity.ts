@@ -22,13 +22,21 @@ export class PlanWorkoutExerciseSetOverride extends BaseEntity {
   @Column({ name: 'workout_exercise_set_id' })
   workoutExerciseSetId!: number;
 
-  @Field(() => String)
-  @Column({ type: 'varchar', length: 255 })
-  field!: string;
+  @Field(() => Number, { nullable: true })
+  @Column({ type: 'int', nullable: true })
+  reps?: number | null;
 
-  @Field(() => String)
-  @Column({ name: 'new_value', type: 'varchar', length: 255 })
-  newValue!: string;
+  @Field(() => Number, { nullable: true })
+  @Column({ type: 'int', nullable: true })
+  time?: number | null;
+
+  @Field(() => Number, { nullable: true })
+  @Column({ type: 'int', nullable: true })
+  weight?: number | null;
+
+  @Field(() => Number, { nullable: true })
+  @Column({ name: 'rest_after', type: 'int', nullable: true })
+  rest?: number | null;
 
   @Field(() => String, { nullable: true })
   @Column({ type: 'text', nullable: true })
