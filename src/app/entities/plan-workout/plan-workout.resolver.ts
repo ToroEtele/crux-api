@@ -12,6 +12,7 @@ import { Plan } from '../plan/plan.entity';
 
 import { WorkoutRepository } from '../workout/workout.repository';
 import { PlanWorkoutRepository } from './plan-workout.repository';
+import { PlanRepository } from '../plan/plan.repository';
 
 import { PlanWorkoutBaseResolver } from '../_generated/entity-base-resolvers/plan-workout.base-resolver';
 
@@ -23,7 +24,8 @@ import { UpdatePlanWorkoutInput } from './types/update-plan-workout.input-type';
 export class PlanWorkoutResolver extends PlanWorkoutBaseResolver {
   constructor(
     @InjectRepository(PlanWorkout) private repository: PlanWorkoutRepository,
-    @InjectRepository(Workout) private workoutRepository: WorkoutRepository
+    @InjectRepository(Workout) private workoutRepository: WorkoutRepository,
+    @InjectRepository(Plan) private planRepository: PlanRepository
   ) {
     super(repository);
   }
@@ -57,5 +59,10 @@ export class PlanWorkoutResolver extends PlanWorkoutBaseResolver {
   @FieldResolver((_type) => Workout)
   async workout(@Root() planWorkout: PlanWorkout): Promise<Workout> {
     return await this.workoutRepository.findOneOrThrow(planWorkout.workoutId);
+  }
+
+  @FieldResolver((_type) => Plan)
+  async plan(@Root() planWorkout: PlanWorkout): Promise<Plan> {
+    return await this.planRepository.findOneOrThrow(planWorkout.planId);
   }
 }
