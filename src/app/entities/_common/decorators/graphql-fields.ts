@@ -1,18 +1,10 @@
-/* eslint-disable @typescript-eslint/prefer-optional-chain */
-/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 /**
  * Taken from https://github.com/Mikhus/graphql-fields-list
  * has not been updated in a while.
  */
 
-/* eslint-disable spaced-comment */
-/* eslint-disable prefer-template */
-/* eslint-disable no-restricted-properties */
-/* eslint-disable @typescript-eslint/no-inferrable-types */
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
-/* eslint-disable logical-assignment-operators */
-/* eslint-disable @typescript-eslint/array-type */
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /*!
  * ISC License

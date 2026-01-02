@@ -15,7 +15,7 @@ export class ConnectionFiltersGenerator extends BaseGenerator {
     await Promise.all(
       metadataManager.getClassesWithMetadataType(MetadataType.FieldFilterable).map(async (entityKlass) => {
         const fileName = `${kebabCase(entityKlass.name)}-connection-filter.input-type.ts`;
-        // eslint-disable-next-line new-cap
+         
         this.storage.write(fileName, await new this.renderer(entityKlass).render());
       })
     );

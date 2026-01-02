@@ -32,12 +32,16 @@ export class Workout extends BaseEntity {
   @Column({ name: 'is_public', type: 'tinyint', default: false })
   isPublic!: boolean;
 
+  // * Many-to-one relations
+
   @Column({ name: 'category_id' })
   categoryId!: number;
 
   @ManyToOne(() => Category, (category) => category.workouts)
   @JoinColumn({ name: 'category_id' })
   category!: Category;
+
+  // * One-to-many relations
 
   @OneToMany(() => WorkoutExercise, (we) => we.workout)
   workoutExercises!: Promise<WorkoutExercise[]>;

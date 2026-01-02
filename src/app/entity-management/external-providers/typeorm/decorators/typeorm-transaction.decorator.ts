@@ -9,6 +9,7 @@ export function TypeORMTransaction(): MethodDecorator {
     const originalMethod = descriptor.value;
 
     // descriptor.value is the original function's implementation
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     descriptor.value = function (...args: any[]) {
       const transactionCallback = (entityManager: EntityManager): Promise<unknown> => {
         const argsWithInjectedTransactionManager = [...args];

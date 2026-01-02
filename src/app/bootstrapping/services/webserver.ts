@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import { expressMiddleware } from '@as-integrations/express5';
 import cookieParser from 'cookie-parser';
 import { createServer } from 'http';
@@ -105,7 +104,6 @@ export class WebserverService implements IBootstrapableService {
           resolve(server);
         })
         .once('error', (err) => {
-          // eslint-disable-next-line prefer-promise-reject-errors
           reject(`❌  ${err.message}`);
         });
     });

@@ -8,6 +8,7 @@ export const userAuthChecker = (user: User | null | undefined, requiredRoles: st
   return true;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const authChecker: AuthCheckerFn<IRequesterContext, any> = ({ context: { authContext } }, roles) => userAuthChecker(authContext.user, roles);
 
 export function isSystemAdmin(authContext: IRequesterAuthContext): boolean {

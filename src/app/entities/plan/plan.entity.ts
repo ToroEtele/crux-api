@@ -5,8 +5,8 @@ import { Field } from '@entities/_common/decorators/field.decorator';
 import { ObjectId } from '@entities/_common/object-id/object-id';
 import { BaseEntity } from '@common/base-types/base.entity';
 
-import { Category } from '../category/category.entity';
 import { PlanWorkout } from '../plan-workout/plan-workout.entity';
+import { Category } from '../category/category.entity';
 import { Difficulty } from './enums/difficulty.enum';
 
 @Entity()
@@ -35,12 +35,16 @@ export class Plan extends BaseEntity {
   @Column({ name: 'is_public', type: 'tinyint', default: false })
   isPublic!: boolean;
 
+  // * Many-to-one relations
+
   @Column({ name: 'category_id' })
   categoryId!: number;
 
   @ManyToOne(() => Category, (category) => category.plans)
   @JoinColumn({ name: 'category_id' })
   category!: Category;
+
+  // * One-to-many relations
 
   @OneToMany(() => PlanWorkout, (pw) => pw.plan)
   workouts!: Promise<PlanWorkout[]>;

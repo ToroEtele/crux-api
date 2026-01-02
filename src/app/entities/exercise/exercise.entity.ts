@@ -27,6 +27,8 @@ export class Exercise extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   diff!: Difficulty;
 
+  // * Many-to-one relations
+
   @Column({ name: 'category_id' })
   categoryId!: number;
 

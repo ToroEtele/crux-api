@@ -1,4 +1,4 @@
-import { Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn } from 'typeorm';
+import { Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn, Unique } from 'typeorm';
 
 import { Entity } from '@app/entity-management/decorators/entity.decorator';
 import { Field } from '@entities/_common/decorators/field.decorator';
@@ -11,6 +11,7 @@ import { Workout } from '../workout/workout.entity';
 import { PlanWorkoutExerciseSetOverride } from '../plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
 
 @Entity()
+@Unique('UQ_WORKOUT_EXERCISE_ORDER', ['workoutId', 'order'])
 export class WorkoutExercise extends BaseEntity {
   @Field((_type) => ObjectId)
   @PrimaryGeneratedColumn()
@@ -19,12 +20,6 @@ export class WorkoutExercise extends BaseEntity {
   @Field((_type) => Number)
   @Column({ type: 'int' })
   order!: number;
-
-  @Column({ name: 'exercise_id' })
-  exerciseId!: number;
-
-  @Column({ name: 'workout_id' })
-  workoutId!: number;
 
   @Field((_type) => Number, { nullable: true })
   @Column({ type: 'int', nullable: true })
@@ -36,9 +31,15 @@ export class WorkoutExercise extends BaseEntity {
 
   // * Many-to-one relations
 
+  @Column({ name: 'exercise_id' })
+  exerciseId!: number;
+
   @ManyToOne(() => Exercise, (exercise) => exercise.workoutExercises)
   @JoinColumn({ name: 'exercise_id' })
   exercise!: Exercise;
+
+  @Column({ name: 'workout_id' })
+  workoutId!: number;
 
   @ManyToOne(() => Workout, (workout) => workout.workoutExercises, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'workout_id' })

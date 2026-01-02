@@ -43,6 +43,7 @@ export class GraphqlQueryExecutor {
     return factory.build();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async runQuery(query: string, user: User, variables = {}, subscription?: Subscription): Promise<FormattedExecutionResult<any>> {
     const authContext = { user: { ...user }, subscription };
 
@@ -60,6 +61,7 @@ export class GraphqlQueryExecutor {
     authContext: IRequesterAuthContext = {},
     variables = {},
     locale?: GraphLocale
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<FormattedExecutionResult<any>> {
     const response = await this.apolloServer.executeOperation(
       { query: mutation, variables },

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Service, Token } from 'typedi';
 import winston from 'winston';
 

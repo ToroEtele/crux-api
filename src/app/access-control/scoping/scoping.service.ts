@@ -16,6 +16,7 @@ import { defaultScopeMappings } from './mappings/default-scopes.mapping';
 import { UnauthenticatedError } from '@errors/unauthenticated.error';
 import { EntityNotFoundError } from '@errors/entity-not-found.error';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ScopingFunctionMap = Map<Constructable<any>, ScopingFunction<any>>;
 
 @Service()
@@ -44,7 +45,7 @@ export class ScopingService {
   public async fetch<TEntity extends {}>(authContext: IRequesterAuthContext, entityClass: Constructable<TEntity>, id: number | string): PromiseMaybe<TEntity> {
     if (authContext.user) {
       const scopeMap = this.getQueryScopeMap(authContext);
-      return this.findOneScoped(authContext, entityClass, id, scopeMap);
+      return await this.findOneScoped(authContext, entityClass, id, scopeMap);
     }
     throw new UnauthenticatedError();
   }
@@ -63,7 +64,7 @@ export class ScopingService {
     scopingMap: ScopingFunctionMap
   ): PromiseMaybe<TEntity> {
     const query = this.getScopedQuery(authContext, entityClass, scopingMap);
-    return query.andWhere(<ConnectionFilter>{ id: { eq: id } }).getOne();
+    return await query.andWhere(<ConnectionFilter>{ id: { eq: id } }).getOne();
   }
 
   private getScopedQuery<TEntity extends {}>(

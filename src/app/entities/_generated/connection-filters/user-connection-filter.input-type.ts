@@ -11,6 +11,8 @@ import { ConnectionStringFilterInput } from '../../../query-building/connection/
 import { Field as GraphQLField } from '../../_common/decorators/field.decorator';
 import { User } from '../../user/user.entity';
 
+import { ConnectionGradeFilterInput } from './connection-grade-filter.input-type';
+
 @InputType()
 export class UsersFilterInput implements ConnectionFilter<User> {
   @GraphQLField(_type => ConnectionStringFilterInput, { nullable: true, admin: false })
@@ -29,9 +31,29 @@ export class UsersFilterInput implements ConnectionFilter<User> {
   @ValidateNested()
   public createdAt?: ConnectionDateFilterInput;
 
+  @GraphQLField(_type => ConnectionDateFilterInput, { nullable: true, admin: false })
+  @ValidateNested()
+  public birthDate?: ConnectionDateFilterInput;
+
+  @GraphQLField(_type => ConnectionStringFilterInput, { nullable: true, admin: false })
+  @ValidateNested()
+  public country?: ConnectionStringFilterInput;
+
+  @GraphQLField(_type => ConnectionStringFilterInput, { nullable: true, admin: false })
+  @ValidateNested()
+  public city?: ConnectionStringFilterInput;
+
   @GraphQLField(_type => ConnectionBooleanFilterInput, { nullable: true, admin: false })
   @ValidateNested()
   public termsAgreed?: ConnectionBooleanFilterInput;
+
+  @GraphQLField(_type => ConnectionGradeFilterInput, { nullable: true, admin: false })
+  @ValidateNested()
+  public maxGradeAtRegistration?: ConnectionGradeFilterInput;
+
+  @GraphQLField(_type => ConnectionGradeFilterInput, { nullable: true, admin: false })
+  @ValidateNested()
+  public maxGrade?: ConnectionGradeFilterInput;
 
   @GraphQLField(_type => [UsersFilterInput], {
     nullable: true,

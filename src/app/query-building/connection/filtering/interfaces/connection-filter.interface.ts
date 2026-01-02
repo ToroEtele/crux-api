@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ConnectionFilterOperator } from '../constants/connection-filter-operator.enum';
 
 import { IConnectionFilterInput } from './connection-filter-input.interface';

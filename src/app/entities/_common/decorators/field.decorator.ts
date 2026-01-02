@@ -34,6 +34,7 @@ class FieldDecorator {
     return (target, propertyKey) => {
       try {
         this.getWrappedDecorator()(target, propertyKey);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         Container.get(LogService).error(err);
         throw new Error('failed in decorator. exiting...');

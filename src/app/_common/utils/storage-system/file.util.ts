@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+ 
 export class FileUtil {
   /**
    * Returns a function that returns the full file path (after _root_)

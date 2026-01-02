@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Inject, Service } from 'typedi';
 
 import { ILogger } from './interfaces/logger.interface';

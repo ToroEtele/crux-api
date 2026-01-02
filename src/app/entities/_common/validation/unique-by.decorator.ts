@@ -25,6 +25,7 @@ export function UniqueBy<TEntity extends { id: number }>(entityClass: Constructa
 
         const query = scopingService.createScopedQuery(context.authContext, entityClass);
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const castedKey = key as any;
         const result = isUpdate
           ? await query.andWhere({ [castedKey]: { eq: inputValue }, id: { ne: isUpdate.numberId() } }).getOne()

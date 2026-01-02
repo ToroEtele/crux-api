@@ -1,4 +1,4 @@
-/* eslint-disable new-cap */
+ 
 import { relative as relativePath } from 'node:path';
 
 import Container from 'typedi';

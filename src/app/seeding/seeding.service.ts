@@ -12,7 +12,10 @@ export class SeedingService {
   public seedingDisabled: boolean;
   seedingOrder = SeedingService.getFixturesOrder();
 
-  constructor(public readonly seedingsPath: string, public readonly entityManager: EntityManager) {
+  constructor(
+    public readonly seedingsPath: string,
+    public readonly entityManager: EntityManager
+  ) {
     this.seedingDisabled = config.environment === 'production';
   }
 
@@ -26,6 +29,7 @@ export class SeedingService {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async getFactories(): Promise<Array<SeedFactory<any>>> {
     const seedingFiles = fs.readdirSync(this.seedingsPath);
 

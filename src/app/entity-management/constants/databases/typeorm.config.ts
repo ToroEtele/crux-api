@@ -11,7 +11,7 @@ export const database = new DataSource({
   entities: allEntities,
   migrationsTableName: 'migrations',
   migrationsRun: false,
-  synchronize: true,
+  synchronize: false,
   migrations,
   supportBigNumbers: true,
   bigNumberStrings: false,

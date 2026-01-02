@@ -9,7 +9,7 @@ export class AllEntitiesGenerator extends BaseGenerator {
   }
 
   public async run(): Promise<void> {
-    // eslint-disable-next-line new-cap
+     
     this.storage.write('entities-list.constant.ts', await new this.renderer().render());
   }
 }

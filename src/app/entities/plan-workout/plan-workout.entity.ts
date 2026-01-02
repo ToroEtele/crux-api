@@ -1,4 +1,4 @@
-import { Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn } from 'typeorm';
+import { Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn, Unique } from 'typeorm';
 
 import { Entity } from '@app/entity-management/decorators/entity.decorator';
 import { Field } from '@entities/_common/decorators/field.decorator';
@@ -10,6 +10,7 @@ import { Workout } from '../workout/workout.entity';
 import { Plan } from '../plan/plan.entity';
 
 @Entity()
+@Unique('UQ_PLAN_WORKOUT_ORDER', ['planId', 'weekNumber', 'dayOfWeek', 'orderInDay'])
 export class PlanWorkout extends BaseEntity {
   @Field((_type) => ObjectId)
   @PrimaryGeneratedColumn()
@@ -35,19 +36,23 @@ export class PlanWorkout extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   notes?: string | null;
 
+  // * Many-to-one relations
+
   @Column({ name: 'workout_id' })
   workoutId!: number;
-
-  @Column({ name: 'plan_id' })
-  planId!: number;
 
   @ManyToOne(() => Workout, (workout) => workout.planWorkouts)
   @JoinColumn({ name: 'workout_id' })
   workout!: Workout;
 
+  @Column({ name: 'plan_id' })
+  planId!: number;
+
   @ManyToOne(() => Plan, (plan) => plan.workouts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'plan_id' })
   plan!: Plan;
+
+  // * One-to-many relations
 
   @OneToMany(() => PlanWorkoutExerciseSetOverride, (override) => override.planWorkout)
   workoutExerciseSetOverrides!: Promise<PlanWorkoutExerciseSetOverride[]>;

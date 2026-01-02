@@ -1,6 +1,5 @@
 // This file was generated automatically.
 // All manual modifications will be lost!
-/* eslint-disable @typescript-eslint/sort-type-constituents,import/order */
 import { Constructable } from '../../../_common/base-types/constructable.type';
 import { StrictMap } from '../../../_common/strict-map';
 import { AvatarImage } from '../../avatar-image/avatar-image.entity';
@@ -64,7 +63,7 @@ export const allEntities = [
   Exercise,
   Category,
   Subscription,
-  VerificationToken,
+  VerificationToken
 ];
 
 export const nonRetrievableEntities = [
@@ -81,7 +80,7 @@ export const nonRetrievableEntities = [
   Exercise,
   Category,
   Subscription,
-  VerificationToken,
+  VerificationToken
 ];
 
 export const entityNameTypeMapping = new StrictMap<string, Constructable<NonAbstractEntity>>('entityNameTypeMapping', [
@@ -98,5 +97,5 @@ export const entityNameTypeMapping = new StrictMap<string, Constructable<NonAbst
   ['Exercise', Exercise],
   ['Category', Category],
   ['Subscription', Subscription],
-  ['VerificationToken', VerificationToken],
+  ['VerificationToken', VerificationToken]
 ]);

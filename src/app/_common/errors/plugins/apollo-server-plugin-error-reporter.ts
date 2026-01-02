@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloServerPlugin, GraphQLRequestContextDidEncounterErrors, GraphQLRequestListener } from '@apollo/server';
 import { GraphQLError } from 'graphql';
 import Container from 'typedi';
@@ -25,7 +24,6 @@ export const ApolloServerPluginErrorReporter: ApolloServerPlugin<IRequesterConte
   }
 };
 
-// eslint-disable-next-line n/handle-callback-err
 function translateErrorMessage(error: GraphQLError, context: IRequesterContext): void {
   // Not implemented yet
 }

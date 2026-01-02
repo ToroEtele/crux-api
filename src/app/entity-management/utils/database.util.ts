@@ -6,7 +6,7 @@ import { database } from '../constants/databases/typeorm.config';
 import { BaseSqlRepository } from '../external-providers/typeorm/base-sql.repository';
 import { TypeORMEntityManager } from '../external-providers/typeorm/typeorm-entity-manager.adapter';
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+ 
 export class DatabaseUtil {
   public static getRepository<TEntity extends {}>(entity: Constructable<TEntity>): BaseRepository<TEntity> {
     const repositoryFactory = this.getRepositoryFactory();
@@ -24,7 +24,7 @@ export class DatabaseUtil {
       if (repositoryType) {
         if (repositoryType.name === 'Repository') return database.getRepository(entity);
         if (repositoryType.name !== 'BaseSqlRepository') {
-          // eslint-disable-next-line new-cap
+           
           return new repositoryType(database.manager);
         }
       }

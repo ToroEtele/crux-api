@@ -29,6 +29,7 @@ export class AllEntitiesRenderer extends TypescriptRenderer<IAllEntitiesRenderer
       const { abstract, path, retrievable } = metadataManager.fetchClassMetadata(entityKlass, MetadataType.Entity);
 
       allEntities.push({ name: entityKlass.name, path: path ?? kebabCase(entityKlass.name) });
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       abstract ? abstractEntities.push(entityKlass) : nonAbstractEntities.push(entityKlass);
       if (retrievable && !abstract) retrievableEntities.push(entityKlass);
       if (!(retrievable || abstract)) nonRetrievableEntities.push(entityKlass);
