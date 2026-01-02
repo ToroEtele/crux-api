@@ -21,7 +21,6 @@ RUN pnpm install --prod --frozen-lockfile
 
 COPY --from=build /app/dist ./dist
 COPY locales locales
-COPY assets assets
 
 EXPOSE 4000
 
