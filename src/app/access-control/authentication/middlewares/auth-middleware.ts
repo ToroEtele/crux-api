@@ -37,7 +37,7 @@ export const AuthMiddleware = async (req: Request & RequestContext, res: Respons
       userAgent: req.header('user-agent'),
       ip: req.ip,
       session: data?.session,
-      user: await userRepository.findOneOrThrow(data?.user?.id),
+      user: data?.user ? await userRepository.findOneOrThrow(data.user.id) : null,
       subscription: data?.user
         ? await subscriptionRepository
             .createQueryBuilder()
