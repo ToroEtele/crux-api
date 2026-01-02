@@ -1,4 +1,4 @@
-/* eslint-disable max-classes-per-file */
+ 
 // import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Field, InputType, Maybe } from 'type-graphql';

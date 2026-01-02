@@ -14,7 +14,7 @@ export class ResolverGenerator extends BaseGenerator {
     await Promise.all(
       metadataManager.getClassesWithMetadataType(MetadataType.Entity).map(async (entityKlass) => {
         const fileName = `${kebabCase(entityKlass.name)}.base-resolver.ts`;
-        // eslint-disable-next-line new-cap
+         
         this.storage.write(fileName, await new this.renderer(entityKlass).render());
       })
     );

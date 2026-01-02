@@ -15,7 +15,7 @@ export class OrderInputGenerator extends BaseGenerator {
     await Promise.all(
       metadataManager.getClassesWithMetadataType(MetadataType.FieldSortable).map(async (klass) => {
         const fileName = `${kebabCase(klass.name)}-order.input-type.ts`;
-        // eslint-disable-next-line new-cap
+
         this.storage.write(fileName, await new this.renderer(klass).render());
       })
     );

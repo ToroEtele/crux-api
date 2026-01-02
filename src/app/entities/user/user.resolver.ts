@@ -3,8 +3,8 @@ import { Service } from 'typedi';
 
 import { InjectRepository } from '@entity-management/decorators/inject-repository.decorator';
 import { CurrentUser } from '@access-control/_common/decorators/current-user.decorator';
+import { pickBy, isEqual, isUndefined, isNull } from '@utils/ts-tools';
 import { ObjectId } from '@entities/_common/object-id/object-id';
-import { pickBy, isEqual, isUndefined } from '@utils/ts-tools';
 
 import { UserBaseResolver } from '@entities/_generated/entity-base-resolvers/user.base-resolver';
 import { Subscription } from '@entities/subscription/subscription.entity';
@@ -32,7 +32,8 @@ export class UserResolver extends UserBaseResolver {
   @Authorized()
   @Mutation((_type) => User)
   public async updateUser(@Arg('input') input: UpdateUserInput, @CurrentUser() user: User): Promise<User> {
-    return await this.repository.update(user, this.getUpdateParams(user, input));
+    console.log({ ...this.getUpdateParams(user, input), maxGradeAtRegistration: user.maxGradeAtRegistration || input.maxGrade });
+    return await this.repository.update(user, { ...this.getUpdateParams(user, input), maxGradeAtRegistration: user.maxGradeAtRegistration || input.maxGrade });
   }
 
   private getUpdateParams(user: User, input: UpdateUserInput): UpdateUserInput {
@@ -40,7 +41,7 @@ export class UserResolver extends UserBaseResolver {
 
     return pickBy(userPartial, (value, key) => {
       const k = key as keyof User;
-      return !isUndefined(value) && !isEqual(value, user[k]);
+      return !isNull(value) && !isUndefined(value) && !isEqual(value, user[k]);
     }) as UpdateUserInput;
   }
 

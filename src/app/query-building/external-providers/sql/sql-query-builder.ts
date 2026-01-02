@@ -8,7 +8,7 @@ import { OrderDirection } from '../../sorting/constants/order-direction.enum';
 
 import { SqlConditionsService } from './services/sql-conditions.service';
 
-export class SqlQueryBuilder<TEntity extends {}> implements IQueryBuilder<TEntity> {
+export class SqlQueryBuilder<TEntity extends object> implements IQueryBuilder<TEntity> {
   private readonly metadata;
   private readonly conditionsService;
 
@@ -93,6 +93,7 @@ export class SqlQueryBuilder<TEntity extends {}> implements IQueryBuilder<TEntit
     return this;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getRawOne(): Promise<any> {
     return this.builder.getRawOne();
   }

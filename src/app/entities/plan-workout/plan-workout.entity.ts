@@ -1,0 +1,59 @@
+import { Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn, Unique } from 'typeorm';
+
+import { Entity } from '@app/entity-management/decorators/entity.decorator';
+import { Field } from '@entities/_common/decorators/field.decorator';
+import { ObjectId } from '@entities/_common/object-id/object-id';
+import { BaseEntity } from '@common/base-types/base.entity';
+
+import { PlanWorkoutExerciseSetOverride } from '../plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
+import { Workout } from '../workout/workout.entity';
+import { Plan } from '../plan/plan.entity';
+
+@Entity()
+@Unique('UQ_PLAN_WORKOUT_ORDER', ['planId', 'weekNumber', 'dayOfWeek', 'orderInDay'])
+export class PlanWorkout extends BaseEntity {
+  @Field((_type) => ObjectId)
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Field((_type) => Number)
+  @Column({ name: 'week_number', type: 'int' })
+  weekNumber!: number;
+
+  @Field((_type) => Number)
+  @Column({ name: 'day_of_week', type: 'int' })
+  dayOfWeek!: number;
+
+  @Field((_type) => Number, { nullable: true })
+  @Column({ name: 'order_in_day', type: 'int', nullable: true })
+  orderInDay?: number | null;
+
+  @Field((_type) => String, { nullable: true })
+  @Column({ name: 'custom_name', type: 'varchar', length: 255, nullable: true })
+  customName?: string | null;
+
+  @Field((_type) => String, { nullable: true })
+  @Column({ type: 'text', nullable: true })
+  notes?: string | null;
+
+  // * Many-to-one relations
+
+  @Column({ name: 'workout_id' })
+  workoutId!: number;
+
+  @ManyToOne(() => Workout, (workout) => workout.planWorkouts)
+  @JoinColumn({ name: 'workout_id' })
+  workout!: Workout;
+
+  @Column({ name: 'plan_id' })
+  planId!: number;
+
+  @ManyToOne(() => Plan, (plan) => plan.workouts, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'plan_id' })
+  plan!: Plan;
+
+  // * One-to-many relations
+
+  @OneToMany(() => PlanWorkoutExerciseSetOverride, (override) => override.planWorkout)
+  workoutExerciseSetOverrides!: Promise<PlanWorkoutExerciseSetOverride[]>;
+}

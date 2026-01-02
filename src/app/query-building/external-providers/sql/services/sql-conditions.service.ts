@@ -27,7 +27,7 @@ export class SqlConditionsService<TEntity extends {}> {
       if (Array.isArray(value) && (key === ConnectionFilterOperator.and || key === ConnectionFilterOperator.or)) {
         result[key] = value.map((filter) => this.normalizeFilter(filter));
       } else if (value && typeof value === 'object' && !Array.isArray(value)) {
-        // eslint-disable-next-line @typescript-eslint/unbound-method
+         
         result[key] = _.omitBy(value, (v) => v === undefined || v === null);
       }
     });

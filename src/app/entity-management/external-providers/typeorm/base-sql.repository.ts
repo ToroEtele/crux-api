@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
 
 import { SqlQueryBuilder } from '../../../query-building/external-providers/sql/sql-query-builder';

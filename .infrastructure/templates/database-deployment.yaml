@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.appname }}-database-deployment
+  namespace: {{ .Values.namespace }}
+  labels:
+    service: {{ .Values.appname }}-database
+    app: {{ .Values.appname }}-database
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.appname }}-database
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appname }}-database
+    spec:
+      containers:
+      - image: {{ .Values.database.image }}
+        name: {{ .Values.appname }}-database
+        env:
+          {{- range $key, $val := .Values.database.env }}
+          - name: {{ $key }}
+            value: {{ $val | quote }}
+          {{- end }}
+        ports:
+        - containerPort: {{ .Values.database.port }}
+        volumeMounts:
+        - name: {{ .Values.appname }}-database-persistent-storage
+          mountPath: /var/lib/mysql
+          
+      volumes:
+      - name: {{ .Values.appname }}-database-persistent-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.appname }}-database-volume-claim

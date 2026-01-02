@@ -31,12 +31,13 @@ export const AuthMiddleware = async (req: Request & RequestContext, res: Respons
       : { data: { user: null, session: null } };
 
     const subscriptionRepository = DatabaseUtil.getRepository(Subscription);
+    const userRepository = DatabaseUtil.getRepository(User);
 
     const authContext = {
       userAgent: req.header('user-agent'),
       ip: req.ip,
       session: data?.session,
-      user: data?.user,
+      user: await userRepository.findOneOrThrow(data?.user?.id),
       subscription: data?.user
         ? await subscriptionRepository
             .createQueryBuilder()

@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
+ 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReflectorPrimitiveType } from './constants/primitive-type.enum';
 
 interface IReflectTypeArgs {
   // Object needs to be allowed for consistency with es5 decorator types
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  target: Object;
+  target: object;
   propertyKey: string | symbol | undefined;
   index?: number;
 }

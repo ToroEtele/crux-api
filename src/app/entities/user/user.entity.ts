@@ -8,6 +8,7 @@ import { BaseEntity } from '@common/base-types/base.entity';
 import { AvatarImage } from '@entities/avatar-image/avatar-image.entity';
 import { Session } from '@entities/session/session.entity';
 import { Account } from '../account/account.entity';
+import { Grade } from './enums/grade.enum';
 
 @Entity()
 export class User extends BaseEntity {
@@ -53,6 +54,26 @@ export class User extends BaseEntity {
   role?: string | null;
 
   // Not required for better auth
+
+  @Field((_type) => Date, { filterable: true, sortable: true, nullable: true })
+  @Column({ name: 'birth_date', type: 'datetime', nullable: true })
+  birthDate?: Date | null;
+
+  @Field((_type) => String, { filterable: true, sortable: true, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  country?: string | null;
+
+  @Field((_type) => String, { filterable: true, sortable: true, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  city?: string | null;
+
+  @Field((_type) => Grade, { filterable: true, sortable: true, enum: 'Grade', nullable: true })
+  @Column({ name: 'max_grade_at_registration', type: 'varchar', length: 255, nullable: true })
+  maxGradeAtRegistration?: Grade | null;
+
+  @Field((_type) => Grade, { filterable: true, sortable: true, enum: 'Grade', nullable: true })
+  @Column({ name: 'max_grade', type: 'varchar', length: 255, nullable: true })
+  maxGrade?: Grade | null;
 
   @Field((_type) => Boolean, { filterable: true, sortable: true })
   @Column({ name: 'terms_agreed', type: 'tinyint', default: false })

@@ -8,7 +8,7 @@ export class StrictMap<TKey, TValue> extends Map<TKey, TValue> {
 
   public fetch(key: TKey): TValue {
     const value = this.getKey(key);
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+     
     if (!value) throw new Error(`Unknown mapping found in "${this.name}" for "${key}".`);
     return value;
   }

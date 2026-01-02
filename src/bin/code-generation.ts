@@ -43,15 +43,12 @@ import { ResolverGenerator } from '@entity-management/code-generation/resolver.g
 
   for (const generator of entitiesGenerators) {
     await generator(entitiesStorage).catch((err) => {
-      // eslint-disable-next-line no-console
       console.error(err);
       throw err;
     });
   }
   process.exit(0);
 })().catch((error) => {
-  //   logService.error(error, `An error has occurred when generating code: ${error.message}`);
-  // eslint-disable-next-line no-console
   console.error(error);
   process.exit(1);
 });

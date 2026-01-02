@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appname }}-deployment
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.appname }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appname }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appname }}
+      {{- if .Values.recreatePods }}
+      annotations:
+        releaseTime: {{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC"| quote }}
+      {{- end }}
+    spec:
+      containers:
+      - name: {{ .Values.appname }}
+        image: {{ .Values.backend.image }}
+        {{- if .Values.isMinikube }}
+        imagePullPolicy: Never
+        {{- else }}
+        imagePullPolicy: Always
+        {{- end }}
+        ports:
+        - containerPort: {{ .Values.backend.port }}
+        env:
+          - name: PORT
+            value: {{ .Values.backend.port | squote }}
+          {{- range $key, $val := .Values.backend.env }}
+          - name: {{ $key }}
+            value: {{ $val | squote }}
+          {{- end }}
+        volumeMounts:
+        - name: {{ .Values.appname }}-backend-persistent-storage
+          mountPath: /app/images
+        startupProbe:
+          httpGet:
+            path: /graphql?query=%7B__typename%7D
+            port: {{ .Values.backend.port }}
+          initialDelaySeconds: 30     
+          periodSeconds: 10           
+          failureThreshold: 10    
+          timeoutSeconds: 5 
+
+      {{- if not .Values.isMinikube }}
+      imagePullSecrets:
+        - name: {{ .Values.appname }}-registry-credentials
+      {{- end }}
+      volumes:
+      - name: {{ .Values.appname }}-backend-persistent-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.appname }}-backend-volume-claim

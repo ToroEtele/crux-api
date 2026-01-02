@@ -7,6 +7,11 @@ export enum UsersOrderField {
   'email' = 'email',
   'emailVerified' = 'emailVerified',
   'createdAt' = 'createdAt',
+  'birthDate' = 'birthDate',
+  'country' = 'country',
+  'city' = 'city',
+  'maxGradeAtRegistration' = 'maxGradeAtRegistration',
+  'maxGrade' = 'maxGrade',
   'termsAgreed' = 'termsAgreed',
 }
 

@@ -15,7 +15,7 @@ export class ObjectIdUnmarshaller {
     const idType = encodedId[0];
     const decoder = objectIdDecoderMapping.get(idType);
     if (!decoder) throw new UserInputError(this.errorMessage);
-    // eslint-disable-next-line new-cap
+     
     return new decoder(encodedId).decode();
   }
 }

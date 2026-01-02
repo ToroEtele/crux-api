@@ -1,0 +1,32 @@
+appname: crux-api
+namespace: crux-staging
+registryCredentials: 
+hostname: crux.toroetele.dev
+isMinikube: false
+recreatePods: true
+
+backend:
+  image:
+  persistentVolumeStorage: 20Gi
+  localStoragePath: '/home/crux/backend'
+  port: 5000
+  env:
+    NODE_ENV: production
+    HOSTNAME: crux.toroetele.dev
+    AUTH_URL: https://crux.toroetele.dev
+    ORIGINS: crux.toroetele.dev
+    LOG_LEVEL: SILENT
+    DATABASE_SECRET: 
+    DATABASE_URL: 
+    APOLLO_ENABLE_INTROSPECTION: true
+    APOLLO_ENABLE_SANDBOX: true
+    APOLLO_INCLUDE_STACKTRACE_IN_ERROR_REPONSES: true
+
+database:
+  image: mysql:8.0.35
+  persistentVolumeStorage: 20Gi
+  localStoragePath: '/home/crux/database'
+  port: 3306
+  env:
+    MYSQL_ROOT_PASSWORD: 
+    MYSQL_DATABASE: crux

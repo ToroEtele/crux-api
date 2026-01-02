@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.appname }}-backend-volume-claim
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: ""
+  volumeName: {{ .Values.appname }}-backend-volume
+  resources:
+    requests:
+      storage: {{ .Values.backend.persistentVolumeStorage }}

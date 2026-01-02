@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NonEmptyArray } from '@common/base-types/non-empty-array.type';
 
 export class MetadataManager<TMetadata extends Record<string | symbol, any>> {
