@@ -1,0 +1,89 @@
+name: Deployment Staging
+
+on:
+  push:
+    branches:
+      - 'main'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: staging
+          flavor: latest=false
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    name: Helm lint and deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: build-and-push-image
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint Helm chart
+        uses: WyriHaximus/github-action-helm3@v3
+        with:
+          exec: helm lint ./.infrastructure/ -f ./.infrastructure/values-staging.yaml
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: staging
+          flavor: latest=false
+
+      - name: Deploy
+        uses: WyriHaximus/github-action-helm3@v3
+        with:
+          exec: >-
+            helm upgrade crux-api \
+              -f ./.infrastructure/values-staging.yaml \
+              ./.infrastructure/ \
+              --install \
+              --wait \
+              --atomic \
+              --namespace crux-staging \
+              --create-namespace \
+              --debug \
+              --set backend.image="${{ steps.meta.outputs.tags }}" \
+              --set registryCredentials="${{ secrets.REGISTRY_CREDENTIALS }}" \
+              --set backend.env.DATABASE_URL="${{ secrets.DATABASE_URL_STAGING }}" \
+              --set backend.env.DATABASE_SECRET="${{ secrets.MYSQL_ROOT_PASSWORD_STAGING }}" \
+              --set database.env.MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_ROOT_PASSWORD_STAGING }}" 
+          kubeconfig: '${{ secrets.KUBECONFIG_STAGING }}'
+          overrule_existing_kubeconfig: 'true'

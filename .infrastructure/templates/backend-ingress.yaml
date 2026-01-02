@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.appname }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.appname }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-body-size: "110m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "360"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "360"
+spec:
+  rules:
+    - host: {{ if .Values.hostname }}{{ .Values.hostname }}{{ end }}
+      http:
+        paths:
+          - path: /api(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.appname }}
+                port:
+                  number: {{ .Values.backend.port }}
+  {{- if .Values.hostname }}
+  tls:
+  - hosts:
+      - {{ .Values.hostname }}
+    secretName: {{ .Values.hostname }}
+  {{- end }}
