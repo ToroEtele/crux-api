@@ -8,6 +8,7 @@ import { BaseEntity } from '@common/base-types/base.entity';
 import { WorkoutExerciseSet } from '../workout-exercise-set/workout-exercise-set.entity';
 import { Exercise } from '../exercise/exercise.entity';
 import { Workout } from '../workout/workout.entity';
+import { PlanWorkoutExerciseSetOverride } from '../plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
 
 @Entity()
 export class WorkoutExercise extends BaseEntity {
@@ -49,4 +50,7 @@ export class WorkoutExercise extends BaseEntity {
     cascade: true
   })
   sets!: Promise<WorkoutExerciseSet[]>;
+
+  @OneToMany(() => PlanWorkoutExerciseSetOverride, (override) => override.workoutExercise)
+  overrides!: Promise<PlanWorkoutExerciseSetOverride[]>;
 }

@@ -5,8 +5,9 @@ import { Field } from '@entities/_common/decorators/field.decorator';
 import { ObjectId } from '@entities/_common/object-id/object-id';
 import { BaseEntity } from '@common/base-types/base.entity';
 
-import { PlanWorkout } from '../plan-workout/plan-workout.entity';
 import { WorkoutExerciseSet } from '../workout-exercise-set/workout-exercise-set.entity';
+import { WorkoutExercise } from '../workout-exercise/workout-exercise.entity';
+import { PlanWorkout } from '../plan-workout/plan-workout.entity';
 
 @Entity()
 @Index(['planWorkoutId'])
@@ -16,11 +17,9 @@ export class PlanWorkoutExerciseSetOverride extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ name: 'plan_workout_id' })
-  planWorkoutId!: number;
-
-  @Column({ name: 'workout_exercise_set_id' })
-  workoutExerciseSetId!: number;
+  @Field(() => Number)
+  @Column({ type: 'int' })
+  order!: number;
 
   @Field(() => Number, { nullable: true })
   @Column({ type: 'int', nullable: true })
@@ -46,7 +45,20 @@ export class PlanWorkoutExerciseSetOverride extends BaseEntity {
   @JoinColumn({ name: 'plan_workout_id' })
   planWorkout!: PlanWorkout;
 
-  @ManyToOne(() => WorkoutExerciseSet, (set) => set.overrides, { onDelete: 'CASCADE' })
+  @Column({ name: 'plan_workout_id' })
+  planWorkoutId!: number;
+
+  @Column({ name: 'workout_exercise_set_id', nullable: true })
+  workoutExerciseSetId?: number | null;
+
+  @ManyToOne(() => WorkoutExerciseSet, (set) => set.overrides, { onDelete: 'CASCADE', nullable: true })
   @JoinColumn({ name: 'workout_exercise_set_id' })
-  workoutExerciseSet!: WorkoutExerciseSet;
+  workoutExerciseSet?: WorkoutExerciseSet | null;
+
+  @Column({ name: 'workout_exercise_id' })
+  workoutExerciseId!: number;
+
+  @ManyToOne(() => WorkoutExercise, (workoutExercise) => workoutExercise.overrides, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'workout_exercise_id' })
+  workoutExercise!: WorkoutExercise;
 }

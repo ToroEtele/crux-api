@@ -34,6 +34,8 @@ export class Exercise extends BaseEntity {
   @JoinColumn({ name: 'category_id' })
   category!: Category;
 
+  // * One-to-many relations
+
   @OneToMany(() => WorkoutExercise, (we) => we.exercise)
   workoutExercises!: Promise<WorkoutExercise[]>;
 }

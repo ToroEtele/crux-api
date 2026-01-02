@@ -9,6 +9,7 @@ import { ObjectId } from '../_common/object-id/object-id';
 
 import { PlanWorkoutExerciseSetOverride } from '../plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
 import { WorkoutExerciseSet } from '../workout-exercise-set/workout-exercise-set.entity';
+import { PlanWorkout } from '../plan-workout/plan-workout.entity';
 import { WorkoutExercise } from './workout-exercise.entity';
 import { Exercise } from '../exercise/exercise.entity';
 import { Workout } from '../workout/workout.entity';
@@ -22,7 +23,6 @@ import { WorkoutExerciseBaseResolver } from '../_generated/entity-base-resolvers
 
 import { CreateWorkoutExerciseInput } from './types/create-workout-exercise.input-type';
 import { UpdateWorkoutExerciseInput } from './types/update-workout-exercise.input-type';
-import { Plan } from '../plan/plan.entity';
 
 @Service()
 @Resolver((_of) => WorkoutExercise)
@@ -72,20 +72,47 @@ export class WorkoutExerciseResolver extends WorkoutExerciseBaseResolver {
   @FieldResolver((_type) => [WorkoutExerciseSet])
   async sets(
     @Root() workoutExercise: WorkoutExercise,
-    @Arg('planId', (_type) => ObjectId, { nullable: true }) planId?: ObjectId | null,
-    @MaybeInjectScopedOrThrow('planId.id', Plan) plan?: Plan | null
+    @Arg('planWorkoutId', (_type) => ObjectId, { nullable: true }) planWorkoutId?: ObjectId | null,
+    @MaybeInjectScopedOrThrow('planWorkoutId.id', PlanWorkout) planWorkout?: PlanWorkout | null
   ): Promise<WorkoutExerciseSet[]> {
     const sets = await this.setRepository
       .createQueryBuilder()
       .where({ workoutExerciseId: { eq: workoutExercise.id } })
       .getMany();
 
-    if (!planId) return sets;
+    if (sets.length === 0) return sets;
+    if (!planWorkout) return sets;
 
-    const overridesQuery = this.overridesRepository.createQueryBuilder().where({ workoutExerciseSetId: { in: sets.map((set) => set.id) } });
-    overridesQuery.builder.innerJoin('planWorkoutExerciseSetOverride.planWorkout', 'planWorkout', 'planWorkout.planId = :planId', { planId });
-    const overrides = await overridesQuery.getMany();
+    const overrides = await this.overridesRepository
+      .createQueryBuilder()
+      .where({ workoutExerciseId: { eq: workoutExercise.id }, planWorkoutId: { eq: planWorkout.id }, workoutExerciseSetId: { isNull: false } })
+      .getMany();
 
-    return sets.map((set) => ({ ...set, ...overrides.find((o) => o.workoutExerciseSetId === set.id || {}) }));
+    return [
+      ...sets.map((set) => {
+        const override = overrides.find((o) => o.workoutExerciseSetId === set.id);
+        return {
+          ...set,
+          order: override?.order || set.order,
+          reps: override?.reps || set.reps,
+          time: override?.time || set.time,
+          weight: override?.weight || set.weight,
+          rest: override?.rest || set.rest,
+          notes: override?.notes || set.notes
+        };
+      })
+    ];
+  }
+
+  @FieldResolver((_type) => [PlanWorkoutExerciseSetOverride])
+  async additionalSets(
+    @Root() workoutExercise: WorkoutExercise,
+    @Arg('planWorkoutId', (_type) => ObjectId) planWorkoutId: ObjectId,
+    @InjectScoped('planWorkoutId.id', PlanWorkout) planWorkout: PlanWorkout
+  ): Promise<PlanWorkoutExerciseSetOverride[]> {
+    return await this.overridesRepository
+      .createQueryBuilder()
+      .where({ workoutExerciseId: { eq: workoutExercise.id }, planWorkoutId: { eq: planWorkout.id }, workoutExerciseSetId: { isNull: true } })
+      .getMany();
   }
 }

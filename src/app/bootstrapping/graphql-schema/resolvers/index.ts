@@ -10,6 +10,7 @@ import { ExerciseResolver } from '@app/entities/exercise/exercise.resolver';
 import { WorkoutResolver } from '@app/entities/workout/workout.resolver';
 import { CategoryResolver } from '@app/entities/category/category.resolver';
 import { WorkoutExerciseSetResolver } from '@app/entities/workout-exercise-set/workout-exercise-set.resolver';
+import { PlanWorkoutExerciseSetOverride } from '@app/entities/plan-workout-exercise-set-override/plan-workout-exercise-set-override.entity';
 
 const resolvers: NonEmptyArray<Function> = [
   // Business entities
@@ -23,7 +24,8 @@ const resolvers: NonEmptyArray<Function> = [
   WorkoutResolver,
   WorkoutExerciseResolver,
   ExerciseResolver,
-  WorkoutExerciseSetResolver
+  WorkoutExerciseSetResolver,
+  PlanWorkoutExerciseSetOverride
 ];
 
 export default resolvers;
